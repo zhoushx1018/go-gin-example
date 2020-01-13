@@ -9,6 +9,10 @@ tool:
 	go vet ./...; true
 	gofmt -w .
 
+install: build
+	echo ${GOPATH}
+	mv ./go-gin-example  ${GOPATH}/bin
+
 lint:
 	golint ./...
 
