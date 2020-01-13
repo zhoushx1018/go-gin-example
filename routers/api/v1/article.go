@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/unknwon/com"
@@ -112,12 +113,12 @@ func GetArticles(c *gin.Context) {
 }
 
 type AddArticleForm struct {
-	TagID         int    `form:"tag_id" valid:"Required;Min(1)"`
+	TagID         int    `form:"tagid" valid:"Required;Min(1)"`
 	Title         string `form:"title" valid:"Required;MaxSize(100)"`
 	Desc          string `form:"desc" valid:"Required;MaxSize(255)"`
 	Content       string `form:"content" valid:"Required;MaxSize(65535)"`
-	CreatedBy     string `form:"created_by" valid:"Required;MaxSize(100)"`
-	CoverImageUrl string `form:"cover_image_url" valid:"Required;MaxSize(255)"`
+	CreatedBy     string `form:"createdby" valid:"Required;MaxSize(100)"`
+	CoverImageUrl string `form:"coverimageurl" valid:"Required;MaxSize(255)"`
 	State         int    `form:"state" valid:"Range(0,1)"`
 }
 
@@ -139,6 +140,9 @@ func AddArticle(c *gin.Context) {
 	)
 
 	httpCode, errCode := app.BindAndValid(c, &form)
+
+	log.Printf("[debug] httpCode=%d|errCode=%d|form=%v", httpCode, errCode, form)
+
 	if errCode != e.SUCCESS {
 		appG.Response(httpCode, errCode, nil)
 		return
